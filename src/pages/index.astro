@@ -1,0 +1,111 @@
+---
+import { getEntry, render } from "astro:content";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import Markdown from "@components/misc/Markdown.astro";
+import PostCard from "@components/PostCard.astro";
+import { getSortedPosts } from "@utils/content-utils";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import { getPostUrlBySlug, url } from "@utils/url-utils";
+
+const aboutEntry = await getEntry("spec", "about");
+if (!aboutEntry) {
+  throw new Error("About page content not found");
+}
+const { Content: AboutContent } = await render(aboutEntry);
+
+let eduItems: Array<{ title: string; role?: string; period?: string }> | null = null;
+let EduContentFallback: any = null;
+try {
+  const eduEntry = await getEntry("spec", "education");
+  if (eduEntry?.data && Array.isArray((eduEntry as any).data.items)) {
+    eduItems = (eduEntry as any).data.items as Array<{ title: string; role?: string; period?: string }>;
+  } else {
+    const rendered = await render(eduEntry);
+    EduContentFallback = rendered.Content;
+  }
+} catch {}
+
+const recentPosts = (await getSortedPosts()).slice(0, 3);
+let delay = 0;
+const interval = 50;
+---
+<MainGridLayout title={i18n(I18nKey.home)}>
+  <!-- About Section -->
+  <section class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
+    <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
+      <h2 class="font-bold text-2xl mb-3">About</h2>
+      <Markdown class="mt-1">
+        <AboutContent />
+      </Markdown>
+    </div>
+  </section>
+
+  <!-- Recent Posts Section -->
+  <section class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
+    <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="font-bold text-2xl">Posts</h2>
+        <a href={url('/archive/')} class="btn-regular rounded-lg px-3 py-2 font-bold active:scale-95">查看全部</a>
+      </div>
+      <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4">
+        {recentPosts.map((entry) => (
+          <PostCard
+            entry={entry}
+            title={entry.data.title}
+            tags={entry.data.tags}
+            category={entry.data.category}
+            published={entry.data.published}
+            updated={entry.data.updated}
+            url={getPostUrlBySlug(entry.slug)}
+            image={entry.data.image}
+            description={entry.data.description}
+            draft={entry.data.draft}
+            class:list="onload-animation"
+            style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  {eduItems && eduItems.length > 0 && (
+    <section class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
+      <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
+        <h2 class="font-bold text-2xl mb-3">Education</h2>
+        <div class="flex flex-col gap-4">
+          {eduItems.map((e) => (
+            <div class="rounded-2xl border border-black/10 dark:border-white/10 p-5 md:p-6 overflow-hidden relative">
+              <div class="pointer-events-none absolute inset-0 opacity-[0.15] bg-gradient-to-br from-black via-black/70 to-transparent dark:from-white/10 dark:via-white/5 dark:to-transparent"></div>
+              <div class="relative">
+                <div class="font-bold text-xl md:text-2xl text-black/90 dark:text-white/90">{e.title}</div>
+                {e.role && <div class="mt-1 text-black/70 dark:text-white/70">{e.role}</div>}
+                {e.period && <div class="mt-2 text-sm text-black/50 dark:text-white/50">{e.period}</div>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+  {!eduItems && EduContentFallback && (
+    <section class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
+      <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
+        <h2 class="font-bold text-2xl mb-3">Education</h2>
+        <Markdown class="mt-1">
+          <EduContentFallback />
+        </Markdown>
+      </div>
+    </section>
+  )}
+  {!eduItems && !EduContentFallback && (
+    <section class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
+      <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
+        <h2 class="font-bold text-2xl mb-1">Education</h2>
+        <p class="text-black/70 dark:text-white/70">还没有添加教育经历内容。可在 src/content/spec/education.md 添加。</p>
+      </div>
+    </section>
+  )}
+  
+</MainGridLayout>
