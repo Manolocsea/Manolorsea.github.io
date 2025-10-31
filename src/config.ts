@@ -8,7 +8,7 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "Fuwari",
+	title: "Manolorsea",
 	subtitle: "Demo Site",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
@@ -55,7 +55,7 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/avatar.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "ManolorSea",
-	bio: "海南大学大四学生",
+	bio: "早上好中午好晚上好",
 	links: [
 		// {
 		// 	name: "Twitter",
@@ -64,11 +64,11 @@ export const profileConfig: ProfileConfig = {
 		// 	// `pnpm add @iconify-json/<icon-set-name>`
 		// 	url: "https://twitter.com",
 		// },
-		// {
-		// 	name: "Steam",
-		// 	icon: "fa6-brands:steam",
-		// 	url: "https://store.steampowered.com",
-		// },
+		{
+			name: "Steam",
+			icon: "fa6-brands:steam",
+			url: "https://steamcommunity.com/profiles/76561198149218513/",
+		},
 		{
 			name: "GitHub",
 			icon: "fa6-brands:github",

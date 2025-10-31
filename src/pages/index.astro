@@ -34,8 +34,7 @@ const interval = 50;
   <!-- About Section -->
   <section class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
     <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
-      <h2 class="font-bold text-2xl mb-3">About</h2>
-      <Markdown class="mt-1">
+      <Markdown class="mt-2">
         <AboutContent />
       </Markdown>
     </div>
@@ -45,10 +44,10 @@ const interval = 50;
   <section class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
     <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
       <div class="flex items-center justify-between mb-3">
-        <h2 class="font-bold text-2xl">Posts</h2>
+        <h2 class="font-bold text-2xl text-90">Posts</h2>
         <a href={url('/archive/')} class="btn-regular rounded-lg px-3 py-2 font-bold active:scale-95">查看全部</a>
       </div>
-      <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4">
+      <div class="transition flex flex-col gap-4">
         {recentPosts.map((entry) => (
           <PostCard
             entry={entry}
@@ -73,15 +72,15 @@ const interval = 50;
   {eduItems && eduItems.length > 0 && (
     <section class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
       <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
-        <h2 class="font-bold text-2xl mb-3">Education</h2>
+        <h2 class="font-bold text-2xl mb-3 text-90">Education</h2>
         <div class="flex flex-col gap-4">
           {eduItems.map((e) => (
-            <div class="rounded-2xl border border-black/10 dark:border-white/10 p-5 md:p-6 overflow-hidden relative">
-              <div class="pointer-events-none absolute inset-0 opacity-[0.15] bg-gradient-to-br from-black via-black/70 to-transparent dark:from-white/10 dark:via-white/5 dark:to-transparent"></div>
+            <div class="edu-card group">
+              <div class="hidden dark:block pointer-events-none absolute inset-0 opacity-[0.08] group-hover:opacity-[0.15] transition bg-gradient-to-br from-white/10 via-white/5 to-transparent"></div>
               <div class="relative">
-                <div class="font-bold text-xl md:text-2xl text-black/90 dark:text-white/90">{e.title}</div>
-                {e.role && <div class="mt-1 text-black/70 dark:text-white/70">{e.role}</div>}
-                {e.period && <div class="mt-2 text-sm text-black/50 dark:text-white/50">{e.period}</div>}
+                <div class="font-bold text-xl md:text-2xl text-90">{e.title}</div>
+                {e.role && <div class="mt-1 text-75">{e.role}</div>}
+                {e.period && <div class="mt-2 text-sm text-50">{e.period}</div>}
               </div>
             </div>
           ))}
@@ -92,7 +91,7 @@ const interval = 50;
   {!eduItems && EduContentFallback && (
     <section class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
       <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
-        <h2 class="font-bold text-2xl mb-3">Education</h2>
+        <h2 class="font-bold text-2xl mb-3 text-90">Education</h2>
         <Markdown class="mt-1">
           <EduContentFallback />
         </Markdown>

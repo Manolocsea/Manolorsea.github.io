@@ -20,7 +20,18 @@ const postsCollection = defineCollection({
 	}),
 });
 const specCollection = defineCollection({
-	schema: z.object({}),
+	schema: z.object({
+		// For pages like about/education; items is optional and used by the homepage
+		items: z
+			.array(
+				z.object({
+					title: z.string(),
+					role: z.string().optional(),
+					period: z.string().optional(),
+				}),
+			)
+			.optional(),
+	}),
 });
 export const collections = {
 	posts: postsCollection,

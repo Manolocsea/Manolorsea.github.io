@@ -110,6 +110,19 @@
     .btn-regular-dark.success {
         @apply bg-[oklch(0.75_0.14_var(--hue))] dark:bg-[oklch(0.75_0.14_var(--hue))]
     }
+
+    /* Education card */
+    .edu-card {
+        @apply rounded-2xl p-5 md:p-6 overflow-hidden relative transition
+        border border-black/5 dark:border-white/10
+        bg-[var(--btn-regular-bg)] dark:bg-white/5
+        hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
+        dark:hover:bg-white/10 dark:active:bg-white/15
+        shadow-sm dark:shadow-none;
+    }
+    .edu-card:hover {
+        @apply -translate-y-0.5 shadow-md; /* subtle lift */
+    }
 }
 
 .custom-md img, #post-cover img {
