@@ -123,6 +123,9 @@
     .edu-card:hover {
         @apply -translate-y-0.5 shadow-md; /* subtle lift */
     }
+    .edu-logo {
+        @apply w-20 h-20 md:w-20md:h-20 rounded-xl object-contain flex-shrink-0;
+    }
 }
 
 .custom-md img, #post-cover img {
